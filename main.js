@@ -55,8 +55,8 @@ async function request(sbd) {
 
     if (resultArray) {
         diemVan = resultArray[0] != undefined ? resultArray[0] : '0'
-        diemToan = resultArray[1] != undefined ? resultArray[1] : '0'
-        diemAnh = resultArray[2] != undefined ? resultArray[2] : '0'
+        diemAnh = resultArray[1] != undefined ? resultArray[1] : '0'
+        diemToan = resultArray[2] != undefined ? resultArray[2] : '0'
         tongXT = resultArray[3] != undefined ? resultArray[3] : '0'
         if (resultArray.length == 5) {
             note = ',diemchuyen: ' + resultArray[4] != undefined ? resultArray[4] : '0'
