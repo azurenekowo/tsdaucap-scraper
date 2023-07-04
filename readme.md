@@ -44,6 +44,11 @@ They had made it so the students' IDs don't continuously increase step by step. 
 **A:** For fun, but I would say it was for analytical, educational and demonstrational purposes.  
 On a more serious note, I think this shouldn't stress the servers in any noticable or impactful/harmful way.
 
+## TODOs
+ - [x] CSV output, sanitized bad/empty responses  
+ - [ ] Automatically detects and skip gaps of empty entries in order to save bandwith
+ - [ ] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn). This requires an open browser to scrape the CAPTCHA image to even process it. I will study how does the CAPTCHA generate and are checked for each query later on.
+
 ## Other Things
 Contributions are welcomed. If you have any ideas or improvements, how about submitting a pull request?  
 I made this after I passed the exam, by the way. 
