@@ -1,0 +1,44 @@
+{
+    "interval": {
+        "normal": 100,
+        "fail": 50
+    },
+    "range": {
+        "from": "002001",
+        "to": "222222"
+    },
+    "output": {
+        "filename": "diem.csv",
+        "encoding": "utf-8"
+    },
+    "scraper": {
+        "mode": "hanoimoi",
+        "request_DO_NOT_TOUCH": {
+            "hanoimoi": {
+                "url": "https://hanoimoi.vn/api/getdiemthi2023",
+                "method": "POST"
+            }
+        },
+        "headers_DO_NOT_TOUCH": {
+            "hanoimoi": {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Connection": "keep-alive",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Cookie": "zone-430=0; zone-330=0; zone-230=0; zone-130=0",
+                "Host": "hanoimoi.vn",
+                "Origin": "https://hanoimoi.vn",
+                "Referer": "https://hanoimoi.vn/diem-thi-lop-10-2023",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "same-origin",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }
+    },
+    "logging": {
+        "verbose": true
+    }
+}
