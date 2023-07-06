@@ -47,8 +47,7 @@ On a more serious note, I think this shouldn't stress the servers in any noticab
 ## TODOs
  - [x] CSV output, sanitized bad/empty responses  
  - [ ] Automatically detects and skip gaps of empty entries in order to save bandwith
- - [ ] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn). ~~This requires an open browser to scrape the CAPTCHA image to even process it. I will study how does the CAPTCHA generate and are checked for each query later on.~~   
- I have found a way to fetch the CAPTCHA directly, just how to solve it automatically as it is harder than I thought at first. https://github.com/naptha/tesseract.js/issues/795
+ - [ ] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn). Partially added support d238ef1
 
 ## Other Things
 Contributions are welcomed. If you have any ideas or improvements, how about submitting a pull request?  
