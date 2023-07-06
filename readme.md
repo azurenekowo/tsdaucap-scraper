@@ -47,7 +47,7 @@ On a more serious note, I think this shouldn't stress the servers in any noticab
 ## TODOs
  - [x] CSV output, sanitized bad/empty responses  
  - [ ] Automatically detects and skip gaps of empty entries in order to save bandwith
- - [ ] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn). Partially added support d238ef1
+ - [ ] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn). Partially added support at [d238ef1](https://github.com/azurenekowo/tsdaucap-scraper/commit/d238ef10aea78bc60a8cc006f439d948e1174c9c)
 
 ## Other Things
 Contributions are welcomed. If you have any ideas or improvements, how about submitting a pull request?  
