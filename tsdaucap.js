@@ -9,7 +9,23 @@ const { createCanvas, loadImage } = require('canvas')
 const sharp = require('sharp')
 const { config } = require('process')
 
-request(studentID(range.from))
+let counter
+let startFrom = range.from
+
+if (!fs.existsSync(output.filename)) {
+    console.log(timestamp() + ' Đang khởi tạo một file dữ liệu mới')
+    fs.writeFileSync(output.filename, 'stt,sbd,mhs,ten,van,toan,anh,xt,note', output.encoding)
+    counter = 1
+}
+else {
+    const prev = fs.readFileSync(output.filename).toString().trim().split('\n')
+    counter = prev.length - 1
+    startFrom = parseInt(prev[prev.length - 1].split(',')[1]) + 1
+    console.log(timestamp() + ' Tiếp tục thu thập từ số báo danh ' + studentID(startFrom))
+}
+
+console.log(timestamp() + ' Bắt đầu thu thập...\n')
+request(studentID(startFrom))
 
 async function request(sbd) {
     console.log(timestamp() + ' Đang truy vấn Số Báo danh ' + sbd)
@@ -78,9 +94,24 @@ async function request(sbd) {
     })
     
     if(!keyRequest.data.result) {
-        console.log(timestamp() + ' ' + keyRequest.data.message)
-        await sleep(interval.fail)
-        return await request(sbd)
+        // console.log(timestamp() + ' ' + keyRequest.data.message)
+        switch(keyRequest.data.message) {
+            case 'Không tìm thấy hồ sơ thí sinh, vui lòng kiểm tra lại.':
+                console.log(timestamp() + ' Không có dữ liệu.')
+                await sleep(interval.fail)
+                return await request(studentID(parseInt(sbd) + 1))
+            break
+            case 'Sai mã bảo vệ.':
+                console.log(timestamp() + ' CAPTCHA sai, đang thử lại.')
+                await sleep(interval.fail)
+                return await request(studentID(sbd))
+            break
+            case 'Xác thực không thành công.':
+                console.log(timestamp() + ' Không xác định, đang thử lại.')
+                await sleep(interval.fail)
+                return await request(studentID(sbd))
+            break
+        }
     }
     const key = keyRequest.data.key
     
@@ -97,7 +128,7 @@ async function request(sbd) {
     const $ = cheerio.load(htmlScoreResponse.data)
     const rawScoreData = $('.box-thong-tin-diem').html().trim().replace(/<div class="row" style="margin-bottom: 8px;">.{1,}:&nbsp;  <b>|<\/b><\/div>/gm, '').split('\n').map(i => i.trim())
     
-    'stt,sbd,mhs,van,toan,anh,xt,note'
+    'stt,sbd,mhs,ten,van,toan,anh,xt,note'
     const resultArray = rawScoreData[3].match(/\d+\.\d+/g)
     let diemVan; let diemToan; let diemAnh; let tongXT; let note = ''
 
@@ -113,7 +144,7 @@ async function request(sbd) {
     else {
         diemVan = '0'; diemToan = '0'; diemAnh = '0'; tongXT = '0'
     }
-    
+
     const record = {
         sbd: rawScoreData[0],
         mhs: rawScoreData[1],
@@ -126,7 +157,12 @@ async function request(sbd) {
             note: note
         }
     }
+    fs.appendFileSync(output.filename,
+        `\n${counter},${record.sbd},${record.mhs},${record.name},${record.score.van},${record.score.toan},${record.score.anh},${record.score.tong}${record.score.note}`,
+        output.encoding)
     console.log(record)
+    
+    counter++
     await sleep(interval.normal)
     return await request(studentID(parseInt(sbd) + 1))
 }
