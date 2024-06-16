@@ -1,7 +1,12 @@
 # 🎓 tsdaucap-scraper  
-A simple prgram to scrape the scores of Hanoi students who have participated in the high school entrance exam of the year 2023-2024.
+A simple prgram to scrape the scores of Hanoi students who have participated in the high school entrance exam of Hanoi.
 
 
+
+
+> [!IMPORTANT]  
+> This project is being reworked. Changes are expected and no backward compatibility is guaranteed.
+> Migration TypeScript/Bun is underway.
 
 ## Quickstart
 *If you haven't installed NodeJS yet, [download it here](https://nodejs.org/en/download)*
