@@ -1,0 +1,60 @@
+{
+    "interval": {
+        "normal": 100,
+        "fail": 50
+    },
+    "range": {
+        "from": "001001",
+        "to": "222222"
+    },
+    "output": {
+        "filename": "diem.csv",
+        "encoding": "utf-8"
+    },
+    "scraper": {
+        "mode": "hanoimoi",
+        "request_DO_NOT_TOUCH": {
+            "hanoimoi": {
+                "url": "https://hanoimoi.vn/api/getdiemthi2023",
+                "method": "POST"
+            }
+        },
+        "headers_DO_NOT_TOUCH": {
+            "hanoimoi": {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Connection": "keep-alive",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Cookie": "zone-430=0; zone-330=0; zone-230=0; zone-130=0",
+                "Host": "hanoimoi.vn",
+                "Origin": "https://hanoimoi.vn",
+                "Referer": "https://hanoimoi.vn/diem-thi-lop-10-2023",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "same-origin",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            "tsdc": {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Cookie": "BIGipServerPool_TSDC_HN=1965559980.34304.0000; .AspNetCore.Antiforgery.68HoDSos0ic=CfDJ8CjI4AkC0xlNiBlQXi0796rQajNX5n8KWKKTc3m5k1e9lEZNVdEL9oR-1TV0IpX9088oNfE6GmqtXYC8Ekwklknzeil0kznRt1F3_r2LkYLr9BXbmh0XOqwH7xho3b7v8VItmc23faGT7piVxKW9ShY",
+                "Connection": "keep-alive",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0",
+                "X-Requested-With": "XMLHttpRequest",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "same-origin",
+                "Origin": "https://tsdaucap.hanoi.gov.vn",
+                "Referer": "https://tsdaucap.hanoi.gov.vn/tra-cuu-tuyen-sinh-10",
+                "RequestVerificationToken": "CfDJ8CjI4AkC0xlNiBlQXi0796qFfZDIBpN0YNiACUTbToRj2pdlabroAjFgpgjFhrCbsDZ7Dh79nTJ_GN7P1iZzuF1J9PJ7xz3F9ISyCLhZ5Rzexo9H63WN2jb9D0fJ5GmwmibTGS3I-y8lUF3XwdvvwtI"
+            }
+        }
+    },
+    "logging": {
+        "verbose": false
+    }
+}
