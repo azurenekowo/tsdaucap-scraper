@@ -16,7 +16,7 @@ bun install
 bun main.ts
 ```
 ## CAPTCHA solver (for `tsdaucap.hanoi.gov.vn`)
-> Special thanks to @4pii4 for writing the CAPTCHA solver script.    
+> Special thanks to [@4pii4](https://github.com/4pii4) for writing the CAPTCHA solver script.    
 
 > [!IMPORTANT]  
 > This external script requires `tesseract` to be installed on your machine. Please install it by [downloading it here](https://tesseract-ocr.github.io/tessdoc/Installation.html) and modify the 18th line in `pytesshost.py` to point it to the executable file.  
