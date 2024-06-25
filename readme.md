@@ -3,7 +3,8 @@ A simple prgram to scrape the scores of Hanoi students who have participated in 
 
 
 > [!IMPORTANT]  
-> If you are updating from the legacy version, please delete the old folder and pull again. 
+> If you are updating from the legacy version, please delete the old folder and pull again.    
+> Or if you still want to use the legacy version, `cd legacy` and continue using it from there.
 
 ## Quickstart
 *If you haven't installed Bun yet, [download it here](https://bun.sh/)*
