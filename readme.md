@@ -1,3 +1,8 @@
+> [!IMPORTANT]  
+> THIS PROGRAM IS DEFUNCT. FUCK YOU 🖕 hanoi.edu.vn     
+> BLAME THEM FOR THEIR CUNT-LIKE WEBSITE WITH SHITTY SERVERS. FUCK THEM ALL. THEY CAN ROT IN HELL AND I WON'T GIVE A FLYING FUCK.
+
+
 # 🎓 tsdaucap-scraper  
 A simple prgram to scrape the scores of Hanoi students who have participated in the high school entrance exam of Hanoi.
 
