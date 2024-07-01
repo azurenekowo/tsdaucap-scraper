@@ -42,8 +42,7 @@ export default async function scrape(id: string, method: string, counter: number
                 ans: captchaManual.input
             }
         }
-        info(`LOAI_TRA_CUU=02&GIA_TRI=${id}&CaptchaTime=${captcha.time}&CaptchaInput=${captcha.ans}`)
-
+        
         const studentRequest = await fetch("https://tsdaucap.hanoi.gov.vn/tra-cuu-diem-thi-10", {
             method: "POST",
             headers: headers.tsdaucap,
@@ -130,7 +129,7 @@ export default async function scrape(id: string, method: string, counter: number
 }
 
 function parseResult(input: any) {
-    if(input == undefined) {
+    if(input == undefined || input == 'KT') {
         return '0'
     }
     return input
