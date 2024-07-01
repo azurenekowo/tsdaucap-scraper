@@ -81,7 +81,7 @@ export default async function scrape(id: string, method: string, counter: number
             diemVan = parseResult(scoreData[0]); diemToan = parseResult(scoreData[2]); diemAnh = parseResult(scoreData[1]); tongXT = parseResult(scoreData[3]); note = scoreData.length >=5 ? `,${scoreData[4]}`: ''
         }
         const output = `${counter},${kq.soBaoDanh},${kq.maHocSinh},${kq.hoTen},${diemVan},${diemToan},${diemAnh},${tongXT}${note}`
-        info(`Success: ${output}`)
+        info(`\x1b[92mSuccess:\x1b[0m ${output}`)
         appendFileSync(config.output, `${output}\n`)
 
         await sleep(config.delay.normal)
