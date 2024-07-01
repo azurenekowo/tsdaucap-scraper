@@ -1,15 +1,10 @@
-> [!IMPORTANT]  
-> THIS PROGRAM IS DEFUNCT. FUCK YOU 🖕 hanoi.edu.vn     
-> BLAME THEM FOR THEIR CUNT-LIKE WEBSITE WITH SHITTY SERVERS. FUCK THEM ALL. THEY CAN ROT IN HELL AND I WON'T GIVE A FLYING FUCK.
-
-
 # 🎓 tsdaucap-scraper  
 A simple prgram to scrape the scores of Hanoi students who have participated in the high school entrance exam of Hanoi.
 
 
 > [!IMPORTANT]  
 > If you are updating from the legacy version, please delete the old folder and pull again.    
-> Or if you still want to use the legacy version, `cd legacy` and continue using it from there.
+> Legacy version has been removed.
 
 ## Quickstart
 *If you haven't installed Bun yet, [download it here](https://bun.sh/)*
@@ -21,6 +16,7 @@ bun install
 bun main.ts
 ```
 ## CAPTCHA solver (for `tsdaucap.hanoi.gov.vn`)
+### Auto
 > Special thanks to [@4pii4](https://github.com/4pii4) for writing the CAPTCHA solver script.    
 
 > [!IMPORTANT]  
@@ -28,6 +24,11 @@ bun main.ts
 > `pytesseract.pytesseract.tesseract_cmd = "<TESSERACT EXECUTABLE PATH>" `
 
 `python pytesshost.py`, then configure the `captcha_solver` endpoint. It should automatically solve the CAPTCHAs fed from the scraper script.
+
+### Manual
+> Recommended for fastest scraping speed      
+On firstrun, it will generate a CAPTCHA in `tempcaptcha.json`. Solve it, and it shouldn't bother you again.     
+This is possible due to an oversight in their shitty website.
 
 ## Configuration
 Edit the `config.json` file accordingly to suit your needs.
@@ -42,7 +43,8 @@ Edit the `config.json` file accordingly to suit your needs.
  - `mode`: The method that the program is going to scrape.  
     + Available modes: `hanoimoi`, `tsdaucap`
  - `captcha_solver`: The CAPTCHA solver endpoint (for `tsdaucap` mode)
-
+ - `captcha_mode`: Specify how to bypass the CAPTCHA (for `tsdaucap` mode)
+    + Available modes: `AUTO`, `MANUAL`
 
 ## Frequently Asked Questions
 **Q:** Massive gaps in the dataset / delays in which no new data are added  
