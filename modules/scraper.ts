@@ -2,9 +2,9 @@ import sleep from "./sleep"
 import config from '../config.json'
 import { error, info } from "./logger"
 import student_id from "./student_id"
-import { load } from 'cheerio'
+import headers from '../headers.json'
+import { appendFileSync } from "node:fs"
 
-const outputFile = Bun.file(config.output)
 
 /**
  * 
@@ -19,87 +19,64 @@ export default async function scrape(id: string, method: string, counter: number
         return process.exit(0)
     }
     if(method == 'tsdaucap') {
-        const captchaRequest = await fetch(`https://tsdaucap.hanoi.gov.vn/getcaptcha?_=${Date.now()}`)
+        const captchaRequest = await fetch(`https://tsdaucap.hanoi.gov.vn/getcaptcha?_=${Date.now()}`, {
+            headers: headers.tsdaucap
+        })
         const captchaData = await captchaRequest.json()
 
-        const captcha = await (await fetch(config.captcha_solver, {
-            method: 'POST',
-            body: `${captchaData.image}`
-        }))?.json()
-
-        const keyRequest = await (await fetch('https://tsdaucap.hanoi.gov.vn/tra-cuu-diem-thi-10', {
-            method: 'POST',
-            headers: headers.tsdaucap,
-            body: JSON.stringify({
-                LOAI_TRA_CUU: '02',
-                GIA_TRI: id,
-                CaptchaTime: captchaData.time,
-                CaptchaInput: captcha.output
-            })
-        })).json()
-
-        if(!keyRequest) {
-            error('KeyRequest returned null (Upstream data source is inaccessible).')
-            process.exit()
-        }
-        if(!keyRequest?.result) {
-            switch(keyRequest.data.message) {
-                case 'Không tìm thấy hồ sơ thí sinh, vui lòng kiểm tra lại.':
-                    info(`Failed querying "${id}": ${keyRequest.data.message}`)
-                    await sleep(config.delay.fail)
-                    return await scrape(student_id(parseInt(id) + 1), "tsdaucap", counter)
-                case 'Sai mã bảo vệ.':
-                    info(`Failed querying "${id}": ${keyRequest.data.message}`)
-                    await sleep(config.delay.fail)
-                    return await scrape(id, "tsdaucap", counter)
-                case 'Xác thực không thành công.':
-                    info(`Failed querying "${id}": ${keyRequest.data.message}`)
-                    await sleep(config.delay.fail)
-                    return await scrape(id, "tsdaucap", counter)
-            }
-        }
-        const requestKey = keyRequest.data.key
-
-        const studentHtmlResults = await (await fetch('https://tsdaucap.hanoi.gov.vn/TraCuu/KetQuaTraCuuTuyenSinh10', {
-            method: 'GET',
-            headers: headers.tsdaucap,
-            body: JSON.stringify({
-                key: requestKey
-            })
-        })).text()
-
-        const $ = load(studentHtmlResults)
-        const rawScoreData: any = $('.box-thong-tin-diem').html()?.trim().replace(/<div class="row" style="margin-bottom: 8px;">.{1,}:&nbsp;  <b>|<\/b><\/div>/gm, '').split('\n').map(i => i.trim())
-        const resultArray = rawScoreData[3].match(/\d+\.\d+/g)
-        let diemVan: string; let diemToan: string; let diemAnh: string; let tongXT: string; let note = ''
-        
-        if (resultArray) {
-            diemVan = parseResult(resultArray[0])
-            diemAnh = parseResult(resultArray[1])
-            diemToan = parseResult(resultArray[2])
-            tongXT = parseResult(resultArray[3])
-            if (resultArray.length == 5) {
-                note = `,${parseResult(resultArray[4])}`
+        let captcha: any
+        if(config.captcha_mode == 'AUTO') {
+            const captchaAuto = await (await fetch(config.captcha_solver, {
+                method: 'POST',
+                body: `${captchaData.image}`
+            }))?.json()
+            captcha = {
+                time: captchaData.time,
+                ans: captchaAuto.output.toLowerCase()
             }
         }
         else {
-            diemVan = '0'; diemToan = '0'; diemAnh = '0'; tongXT = '0'
-        }
-        
-        const studentRecord = {
-            sbd: rawScoreData[0],
-            mhs: rawScoreData[1],
-            name: rawScoreData[2],
-            score: {
-                van: diemVan,
-                toan: diemToan,
-                anh: diemAnh,
-                tong: tongXT,
-                note: note
+            const captchaManual = await Bun.file('tempcaptcha.json').json()
+            captcha = {
+                time: captchaManual.time,
+                ans: captchaManual.input
             }
         }
-        await Bun.write(config.output, `${counter},${studentRecord.sbd},${studentRecord.mhs},${studentRecord.name},${studentRecord.score.van},${studentRecord.score.toan},${studentRecord.score.anh},${studentRecord.score.tong}${studentRecord.score.note}\n`)
-        info(`#${counter} . ${studentRecord.sbd}; ${studentRecord.mhs}; ${studentRecord.name}; ${studentRecord.score.van}, ${studentRecord.score.toan}, ${studentRecord.score.anh}, ${studentRecord.score.tong}${studentRecord.score.note}`)
+        info(`LOAI_TRA_CUU=02&GIA_TRI=${id}&CaptchaTime=${captcha.time}&CaptchaInput=${captcha.ans}`)
+
+        const studentRequest = await fetch("https://tsdaucap.hanoi.gov.vn/tra-cuu-diem-thi-10", {
+            method: "POST",
+            headers: headers.tsdaucap,
+            body: `LOAI_TRA_CUU=02&GIA_TRI=${id}&CaptchaTime=${captcha.time}&CaptchaInput=${captcha.ans}`
+        })
+        const studentRecord = await studentRequest.json()
+        if(!studentRecord) {
+            error(studentRequest.statusText)
+            process.exit()
+        }
+        if (!studentRecord?.result) {
+            info(`\x1b[0;31mFailed\x1b[0m querying "${id}": ${studentRecord.message}`)
+            switch(studentRecord.message) {
+                case 'Không tìm thấy hồ sơ thí sinh, vui lòng kiểm tra lại.':
+                    await sleep(config.delay.fail)
+                    return await scrape(student_id(parseInt(id) + 1), "tsdaucap", counter)
+                case 'Sai mã bảo vệ.':
+                    await sleep(config.delay.fail)
+                    return await scrape(id, "tsdaucap", counter)
+                case 'Xác thực không thành công.':
+                    await sleep(config.delay.fail)
+                    return await scrape(id, "tsdaucap", counter)
+                default:
+                    await sleep(config.delay.fail)
+                    return await scrape(id, "tsdaucap", counter)
+            }            
+        }
+        
+        const kq = studentRecord.kq
+        const scoreData = kq.diemThi.match(/\d+\.\d+/g)
+        info(JSON.stringify(studentRecord, null, 4))
+        appendFileSync(config.output, `${counter},${kq.soBaoDanh},${kq.maHocSinh},${kq.hoTen},${parseResult(scoreData[0])},${parseResult(scoreData[1])},${parseResult(scoreData[2])},${parseResult(scoreData[3])}${scoreData.length >=5 ? `${scoreData[4]}`: ''}\n`)
+
         await sleep(config.delay.normal)
         const new_counter = counter + 1
         await scrape(student_id(parseInt(id) + 1), 'tsdaucap', new_counter)
@@ -149,42 +126,6 @@ export default async function scrape(id: string, method: string, counter: number
         await sleep(config.delay.normal)
         const new_counter = counter + 1
         await scrape(student_id(parseInt(id) + 1), 'hanoimoi', new_counter)
-    }
-}
-
-const headers = {
-    'hanoimoi': {
-        "accept": "*/*",
-        "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,en-US;q=0.7,vi-VN;q=0.6,vi;q=0.5",
-        "cache-control": "no-cache",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "pragma": "no-cache",
-        "priority": "u=1, i",
-        "sec-ch-ua": "\"Not-A.Brand\";v=\"99\", \"Chromium\";v=\"124\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Windows\"",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "x-requested-with": "XMLHttpRequest",
-        "Referer": "https://hanoimoi.vn/diem-thi-lop-10-2024",
-        "Referrer-Policy": "strict-origin-when-cross-origin"
-    },
-    'tsdaucap': {
-        "accept": "application/json, text/javascript, */*; q=0.01",
-        "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,en-US;q=0.7,vi-VN;q=0.6,vi;q=0.5",
-        "cache-control": "no-cache",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "pragma": "no-cache",
-        "sec-ch-ua": "\"Not-A.Brand\";v=\"99\", \"Chromium\";v=\"124\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Windows\"",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "x-requested-with": "XMLHttpRequest",
-        "Referer": "https://tsdaucap.hanoi.gov.vn/tra-cuu-tuyen-sinh-10",
-        "Referrer-Policy": "strict-origin-when-cross-origin"
     }
 }
 

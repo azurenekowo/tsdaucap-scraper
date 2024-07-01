@@ -1,6 +1,7 @@
 {
     "mode": "tsdaucap",
     "captcha_solver": "http://localhost:30101/solve",
+    "captcha_mode": "AUTO",
     "data_collection": {
         "start": "001001",
         "end": "222223"

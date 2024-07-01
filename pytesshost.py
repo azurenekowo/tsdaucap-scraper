@@ -77,9 +77,9 @@ def main():
                     result_array[y - 1:y + 1, x - 1:x + 1] = black_pixel
 
         captcha_img = Image.fromarray(result_array.astype(np.uint8))
-
         out = pytesseract.image_to_string(img, config=TESSOPTS).strip()
         end = time.time()
+        logging.info(f'Solved CAPTCHA: {out}')
         return generate_response({'success': True, 'output': out, 'time': end - start})
 
     logging.basicConfig(format='[%(levelname)s] [%(asctime)s] %(msg)s', level=logging.INFO)
