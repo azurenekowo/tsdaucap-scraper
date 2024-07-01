@@ -10,10 +10,10 @@ let sf = config.data_collection.start
 if(!await(outputFile.exists())) {
     info('Output file not found, creating new file...')
     if(config.mode == 'tsdaucap') {
-        await Bun.write(config.output, 'stt,sbd,mhs,ten,van,anh,toan,xt,note\n')
+        await Bun.write(config.output, 'stt,sbd,mhs,ten,van,toan,anh,xt,note\n')
     } 
     else {
-        await Bun.write(config.output, 'stt,sbd,mhs,van,anh,toan,xt,note\n')
+        await Bun.write(config.output, 'stt,sbd,mhs,van,toan,anh,xt,note\n')
     }
     info('Output file regenerated, script will start running shortly...')
 }
