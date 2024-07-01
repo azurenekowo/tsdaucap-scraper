@@ -61,6 +61,7 @@ On a more serious note, I think this shouldn't stress the servers in any noticab
 ## TODOs
  - [x] CSV output, sanitized bad/empty responses
  - [x] CAPTCHA bypass for [tsdaucap](https://tsdaucap.hanoi.gov.vn).
+ - [x] Headers and cookies spoofed for tsdaucap     
  - [ ] WebUI   
  - [ ] Automatically detects and skip gaps of empty entries in order to save bandwith
      
