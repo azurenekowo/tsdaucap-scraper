@@ -22,6 +22,7 @@ else {
     counter = prev.length
     sf = (parseInt(prev[prev.length - 1].split(',')[1]) + 1).toString()
     if(!isNaN(parseInt(sf))) {
+        sf = student_id(parseInt(sf))
         info(`Resuming data collection, offset ${sf}`)
     }
     else {

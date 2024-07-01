@@ -72,9 +72,16 @@ export default async function scrape(id: string, method: string, counter: number
         }
         
         const kq = studentRecord.kq
-        const scoreData = kq.diemThi.match(/\d+\.\d+/g)
+        const scoreData = kq.diemThi.match(/(\d+\.\d+|KT)/g)
         info(JSON.stringify(studentRecord, null, 4))
-        appendFileSync(config.output, `${counter},${kq.soBaoDanh},${kq.maHocSinh},${kq.hoTen},${parseResult(scoreData[0])},${parseResult(scoreData[1])},${parseResult(scoreData[2])},${parseResult(scoreData[3])}${scoreData.length >=5 ? `${scoreData[4]}`: ''}\n`)
+        let diemVan: any; let diemToan: any; let diemAnh: any; let tongXT: any; let note = ''
+        if(!scoreData) {
+            diemVan = 0; diemToan = 0; diemAnh = 0; tongXT = 0; note = ''
+        }
+        else {
+            diemVan = parseResult(scoreData[0]); diemToan = parseResult(scoreData[1]); diemAnh = parseResult(scoreData[2]); tongXT = parseResult(scoreData[3]); note = scoreData.length >=5 ? `,${scoreData[4]}`: ''
+        }
+        appendFileSync(config.output, `${counter},${kq.soBaoDanh},${kq.maHocSinh},${kq.hoTen},${diemVan},${diemToan},${diemAnh},${tongXT}${note}\n`)
 
         await sleep(config.delay.normal)
         const new_counter = counter + 1
