@@ -34,7 +34,8 @@ This is possible due to an oversight in their shitty website.
 {
    "time": ".....",
    "input": "..."
-}```
+}
+```
 
 ## Configuration
 Edit the `config.json` file accordingly to suit your needs.
