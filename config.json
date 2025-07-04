@@ -1,14 +1,14 @@
 {
     "mode": "tsdaucap",
     "captcha_solver": "http://localhost:30101/solve",
-    "captcha_mode": "AUTO",
+    "captcha_mode": "TEMPCAPTCHA",
     "data_collection": {
         "start": "001001",
         "end": "222223"
     },
     "delay": {
-        "normal": 200,
-        "fail": 150
+        "normal": 0,
+        "fail": 0
     },
     "output": "HN_TSDC_DATA.csv"
 }
