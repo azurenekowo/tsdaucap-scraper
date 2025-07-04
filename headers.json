@@ -26,8 +26,6 @@
         "x-requested-with": "XMLHttpRequest",
         "Referer": "https://tsdaucap.hanoi.gov.vn/tra-cuu-tuyen-sinh-10",
         "Referrer-Policy": "strict-origin-when-cross-origin",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "requestverificationtoken": "CfDJ8D6iEx6NYfxNsjjMZmWN5jzqly3inUCdjfgMJGswQ0m_SqteILSaRB4vUUyxTToi1g6Ql8yz6BGzYC6_DLX_viin4hVAc7eUc3Js4LEl0O3uZRUtpf6wrZXe8YCDIVck5IXdJnfo2slbO67iDCAirck",
-        "cookie": ".AspNetCore.Antiforgery.68HoDSos0ic=CfDJ8D6iEx6NYfxNsjjMZmWN5jztt-UQHhH3zRPBfD-QGm7NXTAHSbl9EsPhRgdvMHo70ddNM7ZQEYRy9zhCAZ91OK3Tf0fVLYHJ1l9sWiduqUt9ur_C_ykJNtV0RAmIiaZ9a_2NH8EsVSuScs-N-75RLtw; BIGipServerPool_TSDC_HN=1915228332.34304.0000;"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     }
 }
