@@ -29,6 +29,12 @@ bun main.ts
 > Recommended for fastest scraping speed      
 On firstrun, it will generate a CAPTCHA in `tempcaptcha.json`. Solve it, and it shouldn't bother you again.     
 This is possible due to an oversight in their shitty website.
+> Sample `tempcaptcha.json`:
+```
+{
+   "time": ".....",
+   "input": "..."
+}```
 
 ## Configuration
 Edit the `config.json` file accordingly to suit your needs.
